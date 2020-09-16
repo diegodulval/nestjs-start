@@ -1,3 +1,15 @@
-export * from './create-cat.dto'
-export * from './list-cats-entity'
-export * from './update-cat.dto'
+export class CreateCatDto {
+    name: string;
+    age: number;
+    breed: string;
+}
+
+export class ListAllEntities {
+    limit: number
+}
+
+export class UpdateCatDto {
+    name: string;
+    age: number;
+    breed: string;
+}
