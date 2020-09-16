@@ -4,6 +4,7 @@ import * as helmet from 'helmet';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { config } from './config';
 import * as dotenv from 'dotenv'
+import { HttpExceptionFilter } from './common/http-exception.filter';
 
 function setSwagger(app) {
   const { description, title, version } = config().swagger.swaggerDefinition;
@@ -22,6 +23,7 @@ async function bootstrap() {
   dotenv.config();
   const app = await NestFactory.create(AppModule);
   app.use(helmet());
+  app.useGlobalFilters(new HttpExceptionFilter());
   setSwagger(app)
   await app.listen(3000);
 }
