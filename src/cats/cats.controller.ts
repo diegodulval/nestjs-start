@@ -1,4 +1,5 @@
-import { Controller, Get, Query, Post, Body, Put, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body, Put, Param, Delete, ForbiddenException, ParseUUIDPipe } from '@nestjs/common';
+import { ValidationPipe } from 'src/common/pipes/validation.pipe';
 import { CatsService } from './cats.service';
 import { CreateCatDto, UpdateCatDto, ListAllEntities } from './dto';
 import { Cat } from './interfaces/cat.interface';
@@ -15,11 +16,11 @@ export class CatsController {
 
     @Get()
     async findAll(@Query() query: ListAllEntities): Promise<Cat[]> {
-        return this.catsService.findAll();
+        throw new ForbiddenException()
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
+    findOne(@Param('id', new ParseUUIDPipe()) id: string) {
         return `This action returns a #${id} cat`;
     }
 

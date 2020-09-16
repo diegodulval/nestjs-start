@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { config } from './config';
 import * as dotenv from 'dotenv'
 import { HttpExceptionFilter } from './common/http-exception.filter';
+import { ValidationPipe } from '@nestjs/common';
 
 function setSwagger(app) {
   const { description, title, version } = config().swagger.swaggerDefinition;
@@ -24,7 +25,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(helmet());
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalPipes(new ValidationPipe())
   setSwagger(app)
   await app.listen(3000);
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
